@@ -9,7 +9,30 @@ import Home from '../screens/Home';
 import Account from '../screens/Account';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../styles/colors'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View } from 'react-native';
 
+const CustomTabBarButton = () => (
+    <TouchableOpacity
+        style={{
+            top: -30,
+            justifyContent: 'center',
+            alignItems: 'center'
+        }}
+
+    >
+        <View
+            style={{
+                width: 70,
+                height: 70,
+                borderRadius: 35,
+                backgroundColor: colors.lightGreen
+            }}
+        >
+
+        </View>
+    </TouchableOpacity>
+)
 
 const AuthStack = createStackNavigator();
 const AuthStackScreens = () => (
@@ -46,6 +69,11 @@ const AppStackScreens = () => (
                 <MaterialCommunityIcons name="home-outline" size={size} color={color} />
             )
         }} />
+        <AppStack.Screen name="Bet" component={Account} options={{
+            tabBarButton: () => (
+                <CustomTabBarButton />
+            )
+        }} />
         <AppStack.Screen name="Account" component={Account} options={{
             tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="account-settings-outline" size={size} color={color} />
@@ -53,6 +81,7 @@ const AppStackScreens = () => (
         }} />
     </AppStack.Navigator>
 )
+
 
 const Routes = () => (
     <NavigationContainer>
