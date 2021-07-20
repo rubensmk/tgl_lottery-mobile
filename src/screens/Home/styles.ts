@@ -1,103 +1,56 @@
-import { StyleSheet } from 'react-native';
+import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
 
 export const Container = styled.View`
     flex:1;
     align-items:center;
-    justify-content:center;
+`;
+export const Header = styled.View`
+    background-color: ${colors.white};
+    width: 100%;
+    height: 78px;
+    padding: 0 10px;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
 `;
 export const Logo = styled.View`
+    align-items:center;
     border-bottom-width: 6px;
     border-bottom-color: ${colors.lightGreen};
     border-radius:5px;
-    margin-bottom:46px;
-`;
+    width: 62px;
+    `;
 export const LogoText = styled.Text`
-    font-size: 44px;
+    font-size: 30px;
     font-style: italic;
     font-weight: bold;
     color: ${colors.gray};
+`;
+export const Content = styled.View`
+    width: 100%;
+    padding: 20px 20px;
 `;
 export const Title = styled.Text`
-    font-size: 35px;
-    font-style: italic;
+    font-size: 22px;
     font-weight: bold;
+    font-style: italic;
     color: ${colors.gray};
-    margin-bottom: 26px;
 `;
-export const Form = styled.View`
-    background: ${colors.white};
-    width: 80%;
-    height: 300px;
-    border-radius:25px;
-`;
-export const ForgotPasswordButton = styled.TouchableOpacity`
-    align-items: flex-end;
-    margin-right: 31px;
-    margin-top: 24px;
-`;
-export const ForgotPasswordText = styled.Text`
-    font-size: 15px;
+export const Subtitle = styled.Text`
+    font-size: 18px;
+    font-style: italic;
+    margin: 10px 0;
     color: ${colors.lightGray};
 `;
-export const LogInButton = styled.TouchableOpacity`
-    display: flex;
-    flex-direction:row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
+export const Filters = styled(FlatList as new () => FlatList)`
+    height:40px;
 `;
-export const LogInText = styled.Text`
-    font-size: 35px;
-    font-style: italic;
-    font-weight: bold;
-    color: ${colors.lightGreen};
-    margin-right:10px;
+export const RecentGamesList = styled.View`
+    height: 500px;
 `;
-export const SignUpButton = styled.TouchableOpacity`
-    display: flex;
-    flex-direction:row;
-    justify-content: center;
-    align-items: center;
-    margin-top:38px;
+export const RecentGames = styled(FlatList as new () => FlatList)`
+    height:40px;
+    margin: 10px 0px 0px 10px;
 `;
-export const SignUpText = styled.Text`
-    font-size: 35px;
-    font-style: italic;
-    font-weight: bold;
-    color: ${colors.gray};
-    margin-right:10px;
-`;
-export const Footer = styled.Text`
-    font-size: 15px;
-    color: ${colors.gray};
-    margin-top: 128px;
-`;
-export const styles = StyleSheet.create({
-    firstInput: {
-        height: 70,
-        borderColor: colors.borderGray,
-        borderWidth: 1,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        borderBottomWidth: 2,
-        borderBottomColor: '#ebebeb',
-        fontSize: 16,
-        fontStyle: 'italic',
-        fontWeight: 'bold',
-        paddingLeft: 10
-    },
-    input: {
-        height: 70,
-        borderColor: colors.borderGray,
-        borderWidth: 1,
-        borderBottomWidth: 2,
-        borderTopWidth: 0,
-        borderBottomColor: '#ebebeb',
-        fontSize: 16,
-        fontStyle: 'italic',
-        fontWeight: 'bold',
-        paddingLeft: 10
-    }
-})

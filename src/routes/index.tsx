@@ -7,29 +7,35 @@ import SignUp from '../screens/SignUp';
 import ForgotPassword from '../screens/ForgotPassword';
 import Home from '../screens/Home';
 import Account from '../screens/Account';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import colors from '../styles/colors'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import Bet from '../screens/Bet';
 
-const CustomTabBarButton = () => (
+const CustomTabBarButton = ({ children, onPress }: any) => (
     <TouchableOpacity
         style={{
-            top: -30,
+            top: -20,
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            height: 80,
+            width: 80
         }}
-
+        onPress={onPress}
     >
         <View
             style={{
-                width: 70,
-                height: 70,
-                borderRadius: 35,
-                backgroundColor: colors.lightGreen
+                width: 76,
+                height: 76,
+                borderRadius: 40,
+                backgroundColor: colors.lightGreen,
+                borderWidth: 4,
+                borderColor: 'white',
+                shadowColor: colors.borderGray
             }}
         >
-
+            {children}
         </View>
     </TouchableOpacity>
 )
@@ -52,36 +58,58 @@ const AppStack = createBottomTabNavigator();
 const AppStackScreens = () => (
     <AppStack.Navigator
         tabBarOptions={{
+            showLabel: false,
             activeTintColor: colors.lightGreen,
             style: {
-                borderRadius: 15,
+                borderTopLeftRadius: 15,
+                borderTopRightRadius: 15,
                 height: 70,
-            },
-            labelStyle: {
-                fontSize: 14,
-                fontWeight: 'bold',
-                fontStyle: 'italic'
-            },
-            labelPosition: 'below-icon'
+            }
         }}>
         <AppStack.Screen name="Home" component={Home} options={{
-            tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="home-outline" size={size} color={color} />
+            tabBarIcon: ({ focused }) => (
+                <View style={{ ...styles.icon, borderTopWidth: focused ? 4 : 0, borderTopColor: colors.lightGreen }}>
+                    <MaterialCommunityIcons name="home" size={28} color={focused ? colors.lightGreen : colors.lightGray} />
+                    <Text
+                        style={{ ...styles.label, color: focused ? colors.gray : colors.lightGray, fontWeight: focused ? 'bold' : '300' }}>
+                        Home
+                    </Text>
+                </View>
             )
         }} />
-        <AppStack.Screen name="Bet" component={Account} options={{
-            tabBarButton: () => (
-                <CustomTabBarButton />
+        <AppStack.Screen name="Bet" component={Bet} options={{
+            tabBarIcon: ({ focused }) => (
+                <Feather name="plus" color="white" size={34} />
+            ),
+            tabBarButton: (props) => (
+                <CustomTabBarButton {...props} />
             )
         }} />
         <AppStack.Screen name="Account" component={Account} options={{
-            tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="account-settings-outline" size={size} color={color} />
+            tabBarIcon: ({ focused }) => (
+                <View style={{ ...styles.icon, borderTopWidth: focused ? 4 : 0, borderTopColor: colors.lightGreen }}>
+                    <MaterialCommunityIcons name="account" size={28} color={focused ? colors.lightGreen : colors.lightGray} />
+                    <Text
+                        style={{ ...styles.label, color: focused ? colors.gray : colors.lightGray, fontWeight: focused ? 'bold' : '300' }}>
+                        Account
+                </Text>
+                </View>
             )
         }} />
     </AppStack.Navigator>
 )
 
+const styles = StyleSheet.create({
+    label: {
+        fontSize: 15,
+        fontStyle: 'italic',
+    },
+    icon: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 70
+    }
+})
 
 const Routes = () => (
     <NavigationContainer>

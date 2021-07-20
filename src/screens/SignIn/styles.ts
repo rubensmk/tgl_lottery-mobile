@@ -72,7 +72,7 @@ export const SignUpText = styled.Text`
 export const Footer = styled.Text`
     font-size: 15px;
     color: ${colors.gray};
-    margin-top: 128px;
+    margin-top: 110px;
 `;
 export const styles = StyleSheet.create({
     firstInput: {
