@@ -29,6 +29,7 @@ export const LogoText = styled.Text`
     color: ${colors.gray};
 `;
 export const Content = styled.View`
+    flex:1;
     width: 100%;
     padding: 20px 20px;
 `;
@@ -47,10 +48,7 @@ export const Subtitle = styled.Text`
 export const Filters = styled(FlatList as new () => FlatList)`
     height:40px;
 `;
-export const RecentGamesList = styled.View`
-    height: 500px;
-`;
+export const RecentGamesList = styled.View``;
 export const RecentGames = styled(FlatList as new () => FlatList)`
-    height:40px;
     margin: 10px 0px 0px 10px;
 `;

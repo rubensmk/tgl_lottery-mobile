@@ -1,6 +1,5 @@
 import React from 'react';
 import * as S from './styles';
-import { SafeAreaView, ScrollView, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../styles/colors';
@@ -17,7 +16,10 @@ const Home: React.FC = () => {
     const gamesData = [
         { id: 1, color: colors.purple, gameType: "Lotofácil", number: "1,2,3,4,5,6,12,7,8,9" },
         { id: 2, color: colors.green, gameType: "Mega-Sena", number: "1,2,3,4,5,6,12,7,8,9" },
-        { id: 3, color: colors.orange, gameType: "Quina", number: "1,2,3,4,5,6,12,7,8,9" }
+        { id: 3, color: colors.orange, gameType: "Quina", number: "1,2,3,4,5,6,12,7,8,9" },
+        { id: 4, color: colors.orange, gameType: "Quina", number: "1,2,3,4,5,6,12,7,8,9" },
+        { id: 5, color: colors.orange, gameType: "Quina", number: "1,2,3,4,5,6,12,7,8,9" },
+        { id: 6, color: colors.orange, gameType: "Quina", number: "1,2,3,4,5,6,12,7,8,9" }
 
     ]
     return (
@@ -43,6 +45,7 @@ const Home: React.FC = () => {
                     <S.RecentGames data={gamesData} keyExtractor={(item: any) => String(item.id)} renderItem={({ item }) => (
                         <CompletedGameCard listNumbers={item.number} color={item.color} type={item.gameType} date="10/02/2020" price="2,50" />
                     )}
+                        showsVerticalScrollIndicator={false}
                     />
                 </S.RecentGamesList>
             </S.Content>
