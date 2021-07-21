@@ -78,11 +78,3 @@ export const SelectedNumbers = styled.View``;
 export const GameOptions = styled.View`
     flex-direction: row;
 `;
-
-export const Cart = styled.View`
-    background:${colors.white};
-    position:relative;
-    left:130px;
-    width: 265px;
-    height:600px;
-`;

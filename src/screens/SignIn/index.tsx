@@ -44,12 +44,11 @@ const SignIn: React.FC = () => {
                     name="email"
                     defaultValue=""
                 />
-                {errors.email && <Text>This is required.</Text>}
-
                 <Controller
                     control={control}
                     rules={{
-                        maxLength: 100,
+                        required: true,
+                        minLength: 6,
                     }}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
@@ -63,6 +62,8 @@ const SignIn: React.FC = () => {
                     name="password"
                     defaultValue=""
                 />
+                {errors.email && <S.ErrorText>Email is required.</S.ErrorText>}
+                {errors.password && <S.ErrorText>Password is required.</S.ErrorText>}
                 <S.ForgotPasswordButton onPress={() => navigate('ForgotPassword')}>
                     <S.ForgotPasswordText>I forgot my password</S.ForgotPasswordText>
                 </S.ForgotPasswordButton>

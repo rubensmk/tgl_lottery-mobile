@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer"
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import ForgotPassword from '../screens/ForgotPassword';
@@ -12,6 +13,7 @@ import colors from '../styles/colors'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet, Text, View } from 'react-native';
 import Bet from '../screens/Bet';
+import Cart from '../screens/Cart';
 
 const CustomTabBarButton = ({ children, onPress }: any) => (
     <TouchableOpacity
@@ -77,7 +79,7 @@ const AppStackScreens = () => (
                 </View>
             )
         }} />
-        <AppStack.Screen name="Bet" component={Bet} options={{
+        <AppStack.Screen name="Bet" component={BetDrawerScreens} options={{
             tabBarIcon: ({ focused }) => (
                 <Feather name="plus" color="white" size={34} />
             ),
@@ -97,6 +99,13 @@ const AppStackScreens = () => (
             )
         }} />
     </AppStack.Navigator>
+)
+
+const BetDrawer = createDrawerNavigator();
+const BetDrawerScreens = () => (
+    <BetDrawer.Navigator initialRouteName="NewBet" drawerPosition="right" drawerContent={(props) => <Cart />} >
+        <BetDrawer.Screen name="NewBet" component={Bet} />
+    </BetDrawer.Navigator>
 )
 
 const styles = StyleSheet.create({

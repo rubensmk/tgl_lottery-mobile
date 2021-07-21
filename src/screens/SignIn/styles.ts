@@ -74,6 +74,11 @@ export const Footer = styled.Text`
     color: ${colors.gray};
     margin-top: 110px;
 `;
+export const ErrorText = styled.Text`
+    font-size: 15px;
+    color: red;
+    align-self: center;
+`;
 export const styles = StyleSheet.create({
     firstInput: {
         height: 70,
