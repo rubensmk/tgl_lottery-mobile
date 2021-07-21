@@ -61,7 +61,7 @@ export const ApplyButtonText = styled.Text`
     color: ${colors.lightGreen};
 `;
 export const Info = styled.Text`
-    font-size: 16px;
+    font-size: 14px;
     font-style: italic;
     color: ${colors.lightGray};
 `;

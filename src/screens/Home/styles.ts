@@ -1,8 +1,9 @@
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import colors from '../../styles/colors';
+import { CompletedGameProps } from '../Bet/types';
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
     flex:1;
     align-items:center;
 `;
@@ -45,10 +46,12 @@ export const Subtitle = styled.Text`
     margin: 10px 0;
     color: ${colors.lightGray};
 `;
-export const Filters = styled(FlatList as new () => FlatList)`
-    height:40px;
+export const Filters = styled.View`
+    flex-direction: row;
+    margin-bottom: 7px;
 `;
-export const RecentGamesList = styled.View``;
-export const RecentGames = styled(FlatList as new () => FlatList)`
+export const RecentGamesList = styled.ScrollView``;
+
+export const RecentGames = styled(FlatList as new () => FlatList<CompletedGameProps>)`
     margin: 10px 0px 0px 10px;
 `;

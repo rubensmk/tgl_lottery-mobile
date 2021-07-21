@@ -6,10 +6,17 @@ import colors from '../../styles/colors';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { Text, TextInput, View } from 'react-native';
 import { styles } from './styles';
+import { useSelector } from 'react-redux';
+import { IState } from '../../store';
+import { IUser } from '../../store/modules/auth/types';
+import { useWorkletCallback } from 'react-native-reanimated';
+import { formatDate } from '../../utils/formatDate';
 
 const Account: React.FC = () => {
     const { navigate } = useNavigation();
     const { control, handleSubmit, formState: { errors } } = useForm();
+    const user = useSelector<IState, IUser>(state => state.auth.user);
+
     const onSubmit = (data: any) => console.log(data);
     return (
         <S.Container>
@@ -21,7 +28,7 @@ const Account: React.FC = () => {
             </S.Header>
             <S.Content>
                 <S.Title>MY PROFILE</S.Title>
-                <S.Info>Email:sample@email.com</S.Info>
+                <S.Info>Email:{user.email}</S.Info>
                 <S.Form>
                     <Controller
                         control={control}
@@ -34,7 +41,7 @@ const Account: React.FC = () => {
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
-                                placeholder="Change username"
+                                placeholder={user.username}
                             />
                         )}
                         name="name"
@@ -46,8 +53,8 @@ const Account: React.FC = () => {
                     <S.ApplyButtonText>Apply Changes</S.ApplyButtonText>
                 </S.ApplyButton>
                 <View style={{ alignItems: 'center', marginBottom: 10 }}>
-                    <S.Info>Created at: 20/11/21</S.Info>
-                    <S.Info>Last Update: 21/11/21</S.Info>
+                    <S.Info>Created at: {formatDate(user.created_at)}</S.Info>
+                    <S.Info>Last Update: {formatDate(user.updated_at)}</S.Info>
                 </View>
                 <S.Title>RESET PASSWORD</S.Title>
                 <S.ResetButton onPress={() => console.log('reset senha')}>

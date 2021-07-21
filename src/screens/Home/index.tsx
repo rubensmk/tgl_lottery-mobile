@@ -1,27 +1,53 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../styles/colors';
 import { GameButton } from '../../components/GameButton';
 import { CompletedGameCard } from '../../components/CompletedGameCard';
+import { CompletedGameProps, GameProps, IFetchGame } from '../Bet/types';
+import api from '../../services/api';
+import { useSelector } from 'react-redux';
+import { IState } from '../../store';
+import { IUser } from '../../store/modules/auth/types';
+import { formatDate } from '../../utils/formatDate';
 
 const Home: React.FC = () => {
     const { navigate } = useNavigation();
-    const data = [
-        { id: 1, color: colors.purple, gameType: "Lotofácil" },
-        { id: 2, color: colors.green, gameType: "Mega-Sena" },
-        { id: 3, color: colors.orange, gameType: "Quina" }
-    ]
-    const gamesData = [
-        { id: 1, color: colors.purple, gameType: "Lotofácil", number: "1,2,3,4,5,6,12,7,8,9" },
-        { id: 2, color: colors.green, gameType: "Mega-Sena", number: "1,2,3,4,5,6,12,7,8,9" },
-        { id: 3, color: colors.orange, gameType: "Quina", number: "1,2,3,4,5,6,12,7,8,9" },
-        { id: 4, color: colors.orange, gameType: "Quina", number: "1,2,3,4,5,6,12,7,8,9" },
-        { id: 5, color: colors.orange, gameType: "Quina", number: "1,2,3,4,5,6,12,7,8,9" },
-        { id: 6, color: colors.orange, gameType: "Quina", number: "1,2,3,4,5,6,12,7,8,9" }
+    const [page, setPage] = useState(1);
+    const [games, setGames] = useState<GameProps[]>([]);
+    const [selectedFilter, setSelectedFilter] = useState(0);
+    const [completedCart, setCompletedCart] = useState<CompletedGameProps[]>([]);
+    const user = useSelector<IState, IUser>(state => state.auth.user);
 
-    ]
+    const handleSelectFilter = async (type: number) => {
+        setSelectedFilter(prevState => (prevState === type ? 0 : type));
+    };
+
+    useEffect(() => {
+        async function loadGames() {
+            const response = await api.get('games');
+            const data = response.data.data.map((item: IFetchGame) => ({
+                gameId: item.id,
+                type: item.type,
+                description: item.description,
+                range: item.range,
+                price: item.price,
+                maxNumber: item['max-number'],
+                color: item.color,
+                minCartValue: item['min-cart-value'],
+            }));
+            setGames(data);
+        }
+        async function loadCompletedGames() {
+
+            const response = await api.get(`/bets/${user.id}/${page}`)
+            const allBetsByUser = response.data;
+            allBetsByUser.data.map((item: CompletedGameProps) => setCompletedCart(prevState => [...prevState, item]))
+        }
+        loadGames();
+        loadCompletedGames();
+    }, []);
     return (
         <S.Container>
             <S.Header>
@@ -34,16 +60,20 @@ const Home: React.FC = () => {
             <S.Content>
                 <S.Title>RECENT GAMES</S.Title>
                 <S.Subtitle>Filters</S.Subtitle>
-                <S.Filters data={data} keyExtractor={(item: any) => String(item.id)} renderItem={({ item }) => (
-                    <GameButton color={item.color} gameType={item.gameType} isFocused={false} />
-                )}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-
-                />
+                <S.Filters>
+                    {games.map(game => (
+                        <GameButton onPress={() => handleSelectFilter(game.gameId)} key={game.gameId} color={game.color} gameType={game.type} isFocused={game.gameId === selectedFilter} />
+                    ))}
+                </S.Filters>
                 <S.RecentGamesList>
-                    <S.RecentGames data={gamesData} keyExtractor={(item: any) => String(item.id)} renderItem={({ item }) => (
-                        <CompletedGameCard listNumbers={item.number} color={item.color} type={item.gameType} date="10/02/2020" price="2,50" />
+                    <S.RecentGames data={completedCart} keyExtractor={(item: any) => String(item.id)} renderItem={({ item }) => (
+                        <CompletedGameCard
+                            listNumbers={item.choosenNumber}
+                            color={item.gameColor}
+                            type={item.gameType}
+                            date={item.created_at}
+                            price={(item.gamePrice)}
+                        />
                     )}
                         showsVerticalScrollIndicator={false}
                     />

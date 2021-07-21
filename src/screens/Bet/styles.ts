@@ -51,8 +51,9 @@ export const Subtitle = styled.Text`
     margin: 10px 0;
     color: ${colors.lightGray};
 `;
-export const Filters = styled(FlatList as new () => FlatList)`
-    height:40px;
+export const Filters = styled.ScrollView`
+    flex-direction: row;
+    margin-bottom: 7px;
 `;
 export const DescriptionTitle = styled.Text`
     font-size: 18px;
