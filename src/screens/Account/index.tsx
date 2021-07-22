@@ -9,7 +9,6 @@ import { styles } from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { IState } from '../../store';
 import { IUser } from '../../store/modules/auth/types';
-import { formatDate } from '../../utils/formatDate';
 import api from '../../services/api';
 import Toast from 'react-native-toast-message';
 import { logOut } from '../../store/modules/auth/actions';
@@ -109,8 +108,8 @@ const Account: React.FC = () => {
                         <S.ApplyButtonText>Apply Changes</S.ApplyButtonText>
                     </S.ApplyButton>
                     <View style={{ alignItems: 'center', marginBottom: 10 }}>
-                        <S.Info>Created at: {formatDate(user.created_at)}</S.Info>
-                        <S.Info>Last Update: {formatDate(user.updated_at)}</S.Info>
+                        <S.Info>Created at: {user.created_at}</S.Info>
+                        <S.Info>Last Update: {user.updated_at}</S.Info>
                     </View>
                     <S.Title>RESET PASSWORD</S.Title>
                     <S.ResetButton onPress={() => sendResetPasswordMail()}>

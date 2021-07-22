@@ -223,7 +223,7 @@ const Bet: React.FC = ({ navigation }: any) => {
                             <>
                                 <S.SelectedNumbers>
                                     <S.Numbers data={choosedNumbers} keyExtractor={(item: any) => item} renderItem={({ item }) => (
-                                        <SelectedBetNumber value={item} />
+                                        <SelectedBetNumber value={item} key={String(item)} />
                                     )}
                                         horizontal
                                         showsHorizontalScrollIndicator={false}

@@ -1,7 +1,5 @@
 import React from 'react'
 import * as S from './styles';
-import { formatValue } from '../../utils/formatValue';
-import { formatDate } from '../../utils/formatDate';
 
 
 interface CompletedGameCardProps {
@@ -15,7 +13,7 @@ export const CompletedGameCard: React.FC<CompletedGameCardProps> = ({ color, lis
     return (
         <S.Container color={color}>
             <S.Numbers>{listNumbers}</S.Numbers>
-            <S.Description>{formatDate(date)}- ({formatValue(price)})</S.Description>
+            <S.Description>{date}- (R$ {price})</S.Description>
             <S.Name color={color}>{type}</S.Name>
         </S.Container>
     )
