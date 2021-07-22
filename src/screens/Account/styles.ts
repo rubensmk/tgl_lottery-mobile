@@ -72,10 +72,15 @@ export const ResetButton = styled.TouchableOpacity`
 `;
 export const ResetText = styled.Text`
     text-align: center;
-    font-size: 30px;
+    font-size: 28px;
     font-style: italic;
     font-weight: bold;
     color: ${colors.lightGreen};
+`;
+export const ErrorText = styled.Text`
+    font-size: 15px;
+    color: red;
+    align-self: center;
 `;
 export const styles = StyleSheet.create({
     input: {

@@ -10,15 +10,26 @@ import api from '../../services/api';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../store/modules/auth/actions';
 import Toast from 'react-native-toast-message';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface SignInFormData {
     email: string;
     password: string;
 }
 const SignIn: React.FC = () => {
+    const fieldsValidationSchema = Yup.object().shape({
+        email: Yup
+            .string()
+            .required('E-mail obrigatório.')
+            .email('Digite um email válido'),
+        password: Yup
+            .string()
+            .required('Senha obrigatória.')
+    })
     const dispatch = useDispatch();
     const { navigate } = useNavigation();
-    const { control, handleSubmit, formState: { errors } } = useForm<SignInFormData>();
+    const { control, handleSubmit, formState: { errors } } = useForm<SignInFormData>({ resolver: yupResolver(fieldsValidationSchema) });
 
     const handleLogin = useCallback(
         async (data: SignInFormData) => {
@@ -41,8 +52,12 @@ const SignIn: React.FC = () => {
                     onShow: () => { navigate('Dashboard') }
                 });
             } catch (err) {
-
-                alert('Erro ao efetuar login, verifique seu email ou senha.');
+                Toast.show({
+                    type: 'error',
+                    position: 'top',
+                    text1: `Erro: ${err}.`,
+                    text2: 'erro ao efetuar sessão, tente novamente!',
+                });
             }
         },
         [dispatch],
@@ -60,38 +75,44 @@ const SignIn: React.FC = () => {
                         rules={{
                             required: true,
                         }}
-                        render={({ field: { onChange, onBlur, value } }) => (
+                        render={({ field: { onBlur, onChange, value } }) => (
                             <TextInput
                                 style={styles.firstInput}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder="Email"
+                                autoCompleteType="email"
+                                keyboardType="email-address"
                             />
                         )}
                         name="email"
                         defaultValue=""
                     />
+                    <S.Error>
+                        <S.ErrorText>{errors.email?.message}</S.ErrorText>
+                    </S.Error>
                     <Controller
                         control={control}
                         rules={{
                             required: true,
                             minLength: 6,
+
                         }}
-                        render={({ field: { onChange, onBlur, value } }) => (
+                        render={({ field: { onBlur, onChange, value } }) => (
                             <TextInput
                                 style={styles.input}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder="Password"
+                                secureTextEntry={true}
                             />
                         )}
                         name="password"
                         defaultValue=""
                     />
-                    {errors.email && <S.ErrorText>Email is required.</S.ErrorText>}
-                    {errors.password && <S.ErrorText>Password is required.</S.ErrorText>}
+                    <S.ErrorText>{errors.password?.message}</S.ErrorText>
                     <S.ForgotPasswordButton onPress={() => navigate('ForgotPassword')}>
                         <S.ForgotPasswordText>I forgot my password</S.ForgotPasswordText>
                     </S.ForgotPasswordButton>

@@ -8,14 +8,22 @@ import { Feather } from '@expo/vector-icons';
 import colors from '../../styles/colors';
 import api from '../../services/api';
 import Toast from 'react-native-toast-message';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface ForgotPasswordFormData {
     email: string;
 }
 
 const ForgotPassword: React.FC = () => {
+    const fieldsValidationSchema = Yup.object().shape({
+        email: Yup
+            .string()
+            .required('E-mail obrigatório.')
+            .email('Digite um email válido')
+    })
     const { navigate, goBack } = useNavigation();
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(fieldsValidationSchema) });
 
     const handleResetPassword = useCallback(
         async (data: ForgotPasswordFormData) => {
@@ -64,13 +72,13 @@ const ForgotPassword: React.FC = () => {
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder="Email"
+                                keyboardType="email-address"
                             />
                         )}
                         name="email"
                         defaultValue=""
                     />
-
-                    {errors.email && <Text>This is required.</Text>}
+                    <S.ErrorText>{errors.email?.message}</S.ErrorText>
                     <S.SendLinkButton onPress={handleSubmit(handleResetPassword)}>
                         <S.SendLinkText>Send Link</S.SendLinkText>
                         <Feather name="arrow-right" size={35} color={colors.lightGreen} />

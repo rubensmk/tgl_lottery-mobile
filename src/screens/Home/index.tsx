@@ -7,13 +7,15 @@ import { GameButton } from '../../components/GameButton';
 import { CompletedGameCard } from '../../components/CompletedGameCard';
 import { CompletedGameProps, GameProps, IFetchGame } from '../Bet/types';
 import api from '../../services/api';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { IState } from '../../store';
 import { IUser } from '../../store/modules/auth/types';
 import { formatDate } from '../../utils/formatDate';
+import { logOut } from '../../store/modules/auth/actions';
 
 const Home: React.FC = () => {
     const { navigate } = useNavigation();
+    const dispatch = useDispatch();
     const [page, setPage] = useState(1);
     const [games, setGames] = useState<GameProps[]>([]);
     const [selectedFilter, setSelectedFilter] = useState(0);
@@ -24,6 +26,10 @@ const Home: React.FC = () => {
         setSelectedFilter(prevState => (prevState === type ? 0 : type));
     };
 
+    const handleLogOut = async () => {
+        dispatch(logOut());
+        navigate('SignIn')
+    }
     useEffect(() => {
         async function loadGames() {
             const response = await api.get('games');
@@ -54,7 +60,7 @@ const Home: React.FC = () => {
                 <S.Logo>
                     <S.LogoText>TGL</S.LogoText>
                 </S.Logo>
-                <MaterialCommunityIcons name="logout" size={28} color={colors.lightGray} onPress={() => navigate('SignIn')} />
+                <MaterialCommunityIcons name="logout" size={28} color={colors.lightGray} onPress={() => handleLogOut()} />
             </S.Header>
 
             <S.Content>

@@ -46,7 +46,7 @@ export const LogInButton = styled.TouchableOpacity`
     flex-direction:row;
     justify-content: center;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 10px;
 `;
 export const LogInText = styled.Text`
     font-size: 35px;
@@ -60,7 +60,7 @@ export const SignUpButton = styled.TouchableOpacity`
     flex-direction:row;
     justify-content: center;
     align-items: center;
-    margin-top:38px;
+    margin-top:18px;
 `;
 export const SignUpText = styled.Text`
     font-size: 35px;
@@ -74,11 +74,18 @@ export const Footer = styled.Text`
     color: ${colors.gray};
     margin-top: 110px;
 `;
+export const Error = styled.View`
+    border: 1px solid ${colors.borderGray};
+    border-top-width: 0;
+    border-bottom-width:0 ;
+`;
+
 export const ErrorText = styled.Text`
-    font-size: 15px;
+    font-size: 12px;
     color: red;
     align-self: center;
 `;
+
 export const styles = StyleSheet.create({
     firstInput: {
         height: 70,

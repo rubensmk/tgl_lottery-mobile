@@ -38,7 +38,7 @@ export const RegisterButton = styled.TouchableOpacity`
     flex-direction:row;
     justify-content: center;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 10px;
 `;
 export const RegisterText = styled.Text`
     font-size: 35px;
@@ -61,10 +61,20 @@ export const goBackText = styled.Text`
     color: ${colors.gray};
     margin-right:10px;
 `;
+export const Error = styled.View`
+    border: 1px solid ${colors.borderGray};
+    border-top-width: 0;
+    border-bottom-width:0 ;
+`;
 
+export const ErrorText = styled.Text`
+    font-size: 12px;
+    color: red;
+    align-self: center;
+`;
 export const styles = StyleSheet.create({
     firstInput: {
-        height: 70,
+        height: 64,
         borderColor: colors.borderGray,
         borderWidth: 1,
         borderTopLeftRadius: 20,
@@ -77,7 +87,7 @@ export const styles = StyleSheet.create({
         paddingLeft: 10
     },
     input: {
-        height: 70,
+        height: 64,
         borderColor: colors.borderGray,
         borderWidth: 1,
         borderBottomWidth: 2,

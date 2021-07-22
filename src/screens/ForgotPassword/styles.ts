@@ -38,7 +38,7 @@ export const SendLinkButton = styled.TouchableOpacity`
     flex-direction:row;
     justify-content: center;
     align-items: center;
-    margin-top: 12px;
+    margin-top: 6px;
 `;
 export const SendLinkText = styled.Text`
     font-size: 35px;
@@ -60,6 +60,11 @@ export const goBackText = styled.Text`
     font-weight: bold;
     color: ${colors.gray};
     margin-right:10px;
+`;
+export const ErrorText = styled.Text`
+    font-size: 12px;
+    color: red;
+    align-self: center;
 `;
 
 export const styles = StyleSheet.create({

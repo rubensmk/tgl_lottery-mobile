@@ -8,15 +8,30 @@ import { Feather } from '@expo/vector-icons';
 import colors from '../../styles/colors';
 import api from '../../services/api';
 import Toast from 'react-native-toast-message';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface SignUpFormData {
     register_name: string;
     register_email: string;
     register_password: string;
 }
+
 const SignUp: React.FC = () => {
+    const fieldsValidationSchema = Yup.object().shape({
+        register_name: Yup.string().required('O nome de registro é obrigatório.'),
+        register_email: Yup
+            .string()
+            .required('O email de registro é obrigatório.')
+            .email('Digite um email válido'),
+        register_password: Yup
+            .string()
+            .required('A senha de registro é obrigatória.')
+            .min(6, 'A senha deve conter pelo menos 6 dígitos')
+    })
     const { navigate, goBack } = useNavigation();
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(fieldsValidationSchema) });
+
 
     const handleSignUp = useCallback(
         async (data: SignUpFormData) => {
@@ -74,6 +89,10 @@ const SignUp: React.FC = () => {
                         name="register_name"
                         defaultValue=""
                     />
+                    <S.Error>
+                        <S.ErrorText>{errors.register_name?.message}</S.ErrorText>
+                    </S.Error>
+
                     <Controller
                         control={control}
                         rules={{
@@ -86,11 +105,16 @@ const SignUp: React.FC = () => {
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder="Email"
+                                autoCompleteType="email"
+                                keyboardType="email-address"
                             />
                         )}
                         name="register_email"
                         defaultValue=""
                     />
+                    <S.Error>
+                        <S.ErrorText>{errors.register_email?.message}</S.ErrorText>
+                    </S.Error>
                     <Controller
                         control={control}
                         rules={{
@@ -103,12 +127,13 @@ const SignUp: React.FC = () => {
                                 onChangeText={onChange}
                                 value={value}
                                 placeholder="Password"
+                                secureTextEntry={true}
                             />
                         )}
                         name="register_password"
                         defaultValue=""
                     />
-                    {errors.Email && <Text>This is required.</Text>}
+                    <S.ErrorText>{errors.register_password?.message}</S.ErrorText>
                     <S.RegisterButton onPress={handleSubmit(handleSignUp)}>
                         <S.RegisterText>Register</S.RegisterText>
                         <Feather name="arrow-right" size={35} color={colors.lightGreen} />
