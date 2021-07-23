@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components/native';
 import colors from '../../styles/colors';
 
 interface ContainerProps {
+    gameColor: string;
     isFocused: boolean;
 }
 
@@ -17,7 +18,7 @@ export const Container = styled.TouchableOpacity<ContainerProps>`
     margin: 5px 5px;
 
     ${props => props.isFocused && css`
-        background: ${colors.green};
+        background: ${props.gameColor};
     `}
 `;
 export const Value = styled.Text`

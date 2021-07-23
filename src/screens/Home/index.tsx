@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as S from './styles';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../styles/colors';
 import { GameButton } from '../../components/GameButton';
@@ -19,6 +19,7 @@ const Home: React.FC = () => {
     const dispatch = useDispatch();
 
     const [page, setPage] = useState(1);
+    const [filteredPage, setFilteredPage] = useState(1);
     const [loadingMore, setLoadingMore] = useState(false);
 
     const [games, setGames] = useState<GameProps[]>([]);
@@ -35,7 +36,24 @@ const Home: React.FC = () => {
         dispatch(logOut());
         navigate('SignIn')
     }
+    const fetchSavedGames = async () => {
+        const response = await api.get(`/bets/${user.id}/${page}`)
+        const allBetsByUser = response.data.data;
+        if (page > 1) {
+            setCompletedCart(prevState => [...prevState, ...allBetsByUser])
+        } else {
+            setCompletedCart([...allBetsByUser])
+            setTotalBets(response.data.total);
+        }
+    }
 
+    const fetchMore = async () => {
+        if (filteredPage > 1) {
+            const response = await api.get(`/bets?page=${filteredPage}&user=${user.id}&game=${selectedFilter}`)
+            const filteredBetsByGameId = response.data.data;
+            setFilteredCart(prevState => [...prevState, ...filteredBetsByGameId])
+        }
+    }
 
     useEffect(() => {
         async function loadGames() {
@@ -52,32 +70,33 @@ const Home: React.FC = () => {
             }));
             setGames(data);
         }
-        async function loadCompletedGames() {
-            if (selectedFilter === 0) {
-                const response = await api.get(`/bets/${user.id}/${page}`)
-                const allBetsByUser = response.data.data;
-                if (page > 1) {
-                    setCompletedCart(prevState => [...prevState, ...allBetsByUser])
-                } else {
-                    setCompletedCart([...allBetsByUser])
-                    setTotalBets(response.data.total);
-                }
-            }
-            if (selectedFilter > 0) {
-                const response = await api.get(`/bets?page=${page}&user=${user.id}&game=${selectedFilter}`)
-                const filteredBetsByGameId = response.data.data;
-                if (page > 1) {
-                    setFilteredCart(prevState => [...prevState, ...filteredBetsByGameId])
-                } else {
-                    setFilteredCart([...filteredBetsByGameId])
-                    setTotalBets(response.data.total);
-                }
-            }
+        loadGames();
+    }, []);
+
+    useEffect(() => {
+        async function fetchFilteredGames() {
+            const response = await api.get(`/bets?page=1&user=${user.id}&game=${selectedFilter}`)
+            const filteredBetsByGameId = response.data.data;
+            setFilteredCart([...filteredBetsByGameId])
+            setTotalBets(response.data.total);
+        }
+        if (selectedFilter === 0) {
+            setCompletedCart([])
+            setPage(1)
+            fetchSavedGames()
+        } else {
+            setFilteredCart([])
+            fetchFilteredGames();
         }
 
-        loadGames();
-        loadCompletedGames();
-    }, [page, selectedFilter]);
+    }, [selectedFilter])
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchSavedGames();
+        }, [])
+    );
+
     return (
         <S.Container>
             <S.Header>
@@ -115,6 +134,7 @@ const Home: React.FC = () => {
                                 return
                             }
                             setPage(prevState => prevState + 1)
+                            fetchSavedGames()
                         }
                         }
                         ListFooterComponent={
@@ -140,7 +160,8 @@ const Home: React.FC = () => {
                                 if (distanceFromEnd < 1) {
                                     return
                                 }
-                                setPage(prevState => prevState + 1)
+                                setFilteredPage(prevState => prevState + 1)
+                                fetchMore()
                             }
                             }
                             ListFooterComponent={

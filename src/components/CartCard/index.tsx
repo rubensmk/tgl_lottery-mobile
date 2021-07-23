@@ -4,14 +4,14 @@ import * as S from './styles';
 import { FontAwesome } from '@expo/vector-icons';
 import colors from '../../styles/colors';
 
-interface SelectedGameCardProps {
+interface CartCardProps {
     listNumbers: string;
     color: string;
     type: string;
     price: string;
     onPress(): void;
 }
-export const SelectedGameCard: React.FC<SelectedGameCardProps> = ({ color, listNumbers, price, type, onPress }) => {
+export const CartCard: React.FC<CartCardProps> = ({ color, listNumbers, price, type, onPress }) => {
     return (
         <S.Container color={color}>
             <S.Numbers>{listNumbers}</S.Numbers>

@@ -2,17 +2,23 @@ import styled, { css } from 'styled-components/native';
 import colors from '../../styles/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export const Container = styled.TouchableOpacity` 
+interface ContainerProps {
+    gameColor: string;
+}
+export const Container = styled.TouchableOpacity<ContainerProps>` 
     align-items:center;
     justify-content: center;
 
     border: 0;
-    background: ${colors.orange};
+
     border-radius: 20px;
     width: 40px;
     height: 40px;
     margin: 5px 5px;
 
+    ${props => props.gameColor && css`
+    background: ${props.gameColor}
+    `}
 `;
 export const Value = styled.Text`
     font-size: 18px;

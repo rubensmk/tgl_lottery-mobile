@@ -12,7 +12,7 @@ import { GameOptionsButton } from '../../components/GameOptionsButton';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../store/modules/auth/actions';
-import { addToCart } from '../../store/modules/cart/actions';
+import { addToCart, clearCart } from '../../store/modules/cart/actions';
 
 interface ICartItem {
     id: number;
@@ -157,6 +157,7 @@ const Bet: React.FC = ({ navigation }: any) => {
 
         if (numbers.length === limit) {
             dispatch(addToCart(newCartItem))
+            setChoosedNumbers([])
         } else {
             Toast.show({
                 type: 'info',
@@ -217,7 +218,7 @@ const Bet: React.FC = ({ navigation }: any) => {
                             <>
                                 <S.SelectedNumbers>
                                     <S.Numbers data={choosedNumbers} keyExtractor={(item: any) => String(item)} renderItem={({ item }) => (
-                                        <SelectedBetNumber value={item} key={item} />
+                                        <SelectedBetNumber value={item} key={item} gameColor={color} />
                                     )}
                                         horizontal
                                         showsHorizontalScrollIndicator={false}
@@ -242,7 +243,7 @@ const Bet: React.FC = ({ navigation }: any) => {
                 </S.Content>
                 <S.BetNumbers>
                     <S.Numbers data={betNumbers} keyExtractor={(item: any) => item} renderItem={({ item }) => (
-                        <BetNumber value={item} onPress={() => handleSelectNumber(item)} isFocused={choosedNumbers.includes(item + 1)} />
+                        <BetNumber gameColor={color} value={item} onPress={() => handleSelectNumber(item)} isFocused={choosedNumbers.includes(item + 1)} />
                     )}
                         numColumns={5}
                     />

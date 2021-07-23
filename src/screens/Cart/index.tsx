@@ -1,34 +1,31 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import * as S from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { Text } from 'react-native';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import colors from '../../styles/colors'
-import { SelectedGameCard } from '../../components/SelectedGameCard';
+import { CartCard } from '../../components/CartCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { IState } from '../../store';
-import { ICartItem, ICartState } from '../../store/modules/cart/types';
+import { ICartState } from '../../store/modules/cart/types';
 import { formatPrice } from '../../utils/formatPrice';
-import { removeFromCart } from '../../store/modules/cart/actions';
+import { clearCart, removeFromCart } from '../../store/modules/cart/actions';
 import api from '../../services/api';
 import { IUser } from '../../store/modules/auth/types';
 import Toast from 'react-native-toast-message';
 
 
-const Cart: React.FC = ({ navigation }: any) => {
+const Cart: React.FC = () => {
     const { navigate } = useNavigation();
     const dispatch = useDispatch();
-    const { items } = useSelector<IState, ICartState>(state => state.cart);
+    const { items, total } = useSelector<IState, ICartState>(state => state.cart);
     const user = useSelector<IState, IUser>(state => state.auth.user);
-    const [total, setTotal] = useState(0);
 
-    const handleRemoveFromCart = useCallback(async (game: any) => {
-        let totalPrice = 0;
-        dispatch(removeFromCart(game));
+    const handleRemoveFromCart = useCallback(async (index: number) => {
+        dispatch(removeFromCart(index))
     }, [])
 
     const handleSave = useCallback(async () => {
-        console.log('aqui')
         if (total >= 30) {
             try {
                 items.map(item => {
@@ -47,7 +44,7 @@ const Cart: React.FC = ({ navigation }: any) => {
                     text1: 'Apostas finalizadas! ',
                     text2: `Suas apostas foram salvas com sucesso!, Boa sorte.`,
                 });
-                navigate('Home');
+                dispatch(clearCart())
             } catch (error) {
                 Toast.show({
                     type: 'error',
@@ -66,13 +63,6 @@ const Cart: React.FC = ({ navigation }: any) => {
         }
     }, [user.id, total]);
 
-    useEffect(() => {
-        items.map(game => {
-            let prices = total
-            prices += game.gamePrice
-            setTotal(prices)
-        })
-    }, [items])
 
     return (
         <>
@@ -83,7 +73,7 @@ const Cart: React.FC = ({ navigation }: any) => {
                 </S.Header>
                 <S.SelectedGames>
                     {items.map((game, index) => (
-                        <SelectedGameCard onPress={() => console.log('remover')} key={index} listNumbers={game.choosenNumbers} color={game.gameColor} type={game.gameType} price={formatPrice(game.gamePrice)} />
+                        <CartCard onPress={() => handleRemoveFromCart(index)} key={index} listNumbers={game.choosenNumbers} color={game.gameColor} type={game.gameType} price={formatPrice(game.gamePrice)} />
                     ))}
                 </S.SelectedGames>
                 <S.TotalSection>

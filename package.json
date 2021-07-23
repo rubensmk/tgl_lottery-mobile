@@ -15,7 +15,6 @@
     "@react-navigation/stack": "^5.14.5",
     "@types/styled-components-react-native": "^5.1.1",
     "axios": "^0.21.1",
-    "date-fns": "^2.23.0",
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
     "immer": "^9.0.5",

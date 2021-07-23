@@ -10,11 +10,18 @@ export function addToCart(item: ICartItem) {
     };
 }
 
-export function removeFromCart(id: number) {
+export function removeFromCart(index: number) {
     return {
         type: 'REMOVE_FROM_CART',
         payload: {
-            id,
+            index,
         },
+    };
+}
+
+export function clearCart() {
+    return {
+        type: 'CLEAR_CART',
+        payload: {},
     };
 }

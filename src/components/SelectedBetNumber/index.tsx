@@ -5,12 +5,12 @@ import * as S from './styles';
 
 interface SelectedBetNumberProps {
     value: number;
+    gameColor: string;
 }
-export const SelectedBetNumber: React.FC<SelectedBetNumberProps> = ({ value }) => {
+export const SelectedBetNumber: React.FC<SelectedBetNumberProps> = ({ value, gameColor }) => {
     return (
-        <S.Container>
+        <S.Container gameColor={gameColor}>
             <S.Value>{value}</S.Value>
-            <S.Icon name="close" size={12} color="white" />
         </S.Container>
     )
 }
