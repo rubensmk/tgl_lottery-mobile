@@ -12,6 +12,7 @@ import { GameOptionsButton } from '../../components/GameOptionsButton';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../store/modules/auth/actions';
+import { addToCart } from '../../store/modules/cart/actions';
 
 interface ICartItem {
     id: number;
@@ -33,17 +34,13 @@ const Bet: React.FC = ({ navigation }: any) => {
     const [color, setColor] = useState('');
     const [limit, setLimit] = useState(0);
     const [range, setRange] = useState(0);
-    const [minCartValue, setMinCartValue] = useState(0);
     const [betNumbers, setBetNumbers] = useState<number[]>([]);
     const [selectedGame, setSelectedGame] = useState('');
     const [choosedNumbers, setChoosedNumbers] = useState<number[]>([]);
-    const [cartList, setCartList] = useState<ICartItem[]>([]);
-    const [total, setTotal] = useState(0);
 
     const handleSelectGame = useCallback((game: GameProps) => {
         setSelectedGame(game.type);
         setGameId(game.gameId);
-        setMinCartValue(game.minCartValue);
         setColor(game.color);
         setPrice(game.price);
         setLimit(game.maxNumber);
@@ -150,7 +147,6 @@ const Bet: React.FC = ({ navigation }: any) => {
 
     const handleAddToCart = useCallback(() => {
         const numbers = [...choosedNumbers];
-        let newTotal = total;
         const newCartItem = {
             id: gameId,
             choosenNumbers: numbers.sort((a, b) => a - b).toString(),
@@ -160,9 +156,7 @@ const Bet: React.FC = ({ navigation }: any) => {
         };
 
         if (numbers.length === limit) {
-            newTotal += newCartItem.gamePrice;
-            setTotal(newTotal);
-            setCartList([...cartList, newCartItem]);
+            dispatch(addToCart(newCartItem))
         } else {
             Toast.show({
                 type: 'info',
@@ -171,7 +165,7 @@ const Bet: React.FC = ({ navigation }: any) => {
                 text2: `É preciso escolher ${limit} números para finalizar esta jogada.`,
             });
         }
-    }, [cartList, choosedNumbers, total, color, gameId, limit, selectedGame, price]);
+    }, [choosedNumbers, color, gameId, limit, selectedGame, price]);
 
     const handleLogOut = async () => {
         dispatch(logOut());
@@ -211,7 +205,7 @@ const Bet: React.FC = ({ navigation }: any) => {
                 </S.Header>
 
                 <S.Content>
-                    <S.Title>NEW BET FOR {selectedGame.toUpperCase()}</S.Title>
+                    <S.Title>NEW BET FOR {title}</S.Title>
                     <S.Subtitle>Choose a game</S.Subtitle>
                     <S.Filters horizontal showsHorizontalScrollIndicator={false}>
                         {games.map(game => (
@@ -222,8 +216,8 @@ const Bet: React.FC = ({ navigation }: any) => {
                         (
                             <>
                                 <S.SelectedNumbers>
-                                    <S.Numbers data={choosedNumbers} keyExtractor={(item: any) => item} renderItem={({ item }) => (
-                                        <SelectedBetNumber value={item} key={String(item)} />
+                                    <S.Numbers data={choosedNumbers} keyExtractor={(item: any) => String(item)} renderItem={({ item }) => (
+                                        <SelectedBetNumber value={item} key={item} />
                                     )}
                                         horizontal
                                         showsHorizontalScrollIndicator={false}

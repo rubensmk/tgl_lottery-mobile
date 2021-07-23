@@ -108,8 +108,8 @@ const Account: React.FC = () => {
                         <S.ApplyButtonText>Apply Changes</S.ApplyButtonText>
                     </S.ApplyButton>
                     <View style={{ alignItems: 'center', marginBottom: 10 }}>
-                        <S.Info>Created at: {user.created_at}</S.Info>
-                        <S.Info>Last Update: {user.updated_at}</S.Info>
+                        <S.Info>Created at: {user.created_at.split(' ', 1)}</S.Info>
+                        <S.Info>Last Update: {user.updated_at.split(' ', 1)}</S.Info>
                     </View>
                     <S.Title>RESET PASSWORD</S.Title>
                     <S.ResetButton onPress={() => sendResetPasswordMail()}>

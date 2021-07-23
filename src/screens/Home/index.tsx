@@ -12,6 +12,7 @@ import { IState } from '../../store';
 import { IUser } from '../../store/modules/auth/types';
 import { logOut } from '../../store/modules/auth/actions';
 import { ActivityIndicator } from 'react-native';
+import { formatPrice } from '../../utils/formatPrice';
 
 const Home: React.FC = () => {
     const { navigate } = useNavigation();
@@ -104,7 +105,7 @@ const Home: React.FC = () => {
                             color={item.gameColor}
                             type={item.gameType}
                             date={item.created_at}
-                            price={(item.gamePrice)}
+                            price={formatPrice(item.gamePrice)}
                         />
                     )}
                         showsVerticalScrollIndicator={false}
@@ -130,7 +131,7 @@ const Home: React.FC = () => {
                                 color={item.gameColor}
                                 type={item.gameType}
                                 date={item.created_at}
-                                price={(item.gamePrice)}
+                                price={formatPrice(item.gamePrice)}
                             />
                         )}
                             showsVerticalScrollIndicator={false}
