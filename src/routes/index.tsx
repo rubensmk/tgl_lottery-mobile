@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { TransitionSpecs, createStackNavigator } from "@react-navigation/stack";
+import { TransitionSpecs, createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import SignIn from '../screens/SignIn';
@@ -43,16 +43,17 @@ const CustomTabBarButton = ({ children, onPress }: any) => (
     </TouchableOpacity>
 )
 
-// const SplashScreens = (props: any) => {
-//     // setTimeout(() => {
-//     //     props.navigation.replace('SignIn')
-//     // }, 3000);
+const SplashScreens = (props: any) => {
+    setTimeout(() => {
+        props.navigation.replace('SignIn')
+    }, 3000);
 
-//     return (
-//         <SplashScreen />
-//     )
-// }
+    return (
+        <SplashScreen />
+    )
+}
 const AuthStack = createStackNavigator();
+
 const AuthStackScreens = () => (
 
     <AuthStack.Navigator initialRouteName="SplashScreen" headerMode="none" screenOptions={{
@@ -60,12 +61,7 @@ const AuthStackScreens = () => (
             backgroundColor: '#F7F7F7'
         }
     }}>
-        <AuthStack.Screen name="SplashScreen" component={SplashScreen} options={{
-            transitionSpec: {
-                open: TransitionSpecs.RevealFromBottomAndroidSpec,
-                close: TransitionSpecs.RevealFromBottomAndroidSpec
-            }
-        }} />
+        <AuthStack.Screen name="SplashScreen" component={SplashScreens} />
         <AuthStack.Screen name="SignIn" component={SignIn} />
         <AuthStack.Screen name="SignUp" component={SignUp} />
         <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
