@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from "@react-navigation/stack";
+import { TransitionSpecs, createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer"
 import SignIn from '../screens/SignIn';
@@ -8,10 +8,11 @@ import SignUp from '../screens/SignUp';
 import ForgotPassword from '../screens/ForgotPassword';
 import Home from '../screens/Home';
 import Account from '../screens/Account';
+import SplashScreen from '../screens/SplashScreen';
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import colors from '../styles/colors'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Easing } from 'react-native';
 import Bet from '../screens/Bet';
 import Cart from '../screens/Cart';
 
@@ -42,13 +43,29 @@ const CustomTabBarButton = ({ children, onPress }: any) => (
     </TouchableOpacity>
 )
 
+// const SplashScreens = (props: any) => {
+//     // setTimeout(() => {
+//     //     props.navigation.replace('SignIn')
+//     // }, 3000);
+
+//     return (
+//         <SplashScreen />
+//     )
+// }
 const AuthStack = createStackNavigator();
 const AuthStackScreens = () => (
-    <AuthStack.Navigator initialRouteName="SignIn" headerMode="none" screenOptions={{
+
+    <AuthStack.Navigator initialRouteName="SplashScreen" headerMode="none" screenOptions={{
         cardStyle: {
             backgroundColor: '#F7F7F7'
         }
     }}>
+        <AuthStack.Screen name="SplashScreen" component={SplashScreen} options={{
+            transitionSpec: {
+                open: TransitionSpecs.RevealFromBottomAndroidSpec,
+                close: TransitionSpecs.RevealFromBottomAndroidSpec
+            }
+        }} />
         <AuthStack.Screen name="SignIn" component={SignIn} />
         <AuthStack.Screen name="SignUp" component={SignUp} />
         <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />

@@ -29,7 +29,7 @@ const SignIn: React.FC = () => {
     })
     const dispatch = useDispatch();
     const { navigate } = useNavigation();
-    const { control, handleSubmit, formState: { errors } } = useForm<SignInFormData>({ resolver: yupResolver(fieldsValidationSchema) });
+    const { control, handleSubmit, formState: { errors }, reset } = useForm<SignInFormData>({ resolver: yupResolver(fieldsValidationSchema) });
 
     const handleLogin = useCallback(
         async (data: SignInFormData) => {
@@ -51,6 +51,7 @@ const SignIn: React.FC = () => {
                     text2: 'Seja Bem-Vindo!',
                     onShow: () => { navigate('Dashboard') }
                 });
+                reset()
             } catch (err) {
                 Toast.show({
                     type: 'error',
