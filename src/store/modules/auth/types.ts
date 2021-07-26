@@ -1,16 +1,17 @@
+/* eslint-disable camelcase */
 export interface IUser {
-    id: string;
-    username: string;
-    email: string;
-    created_at: string;
-    updated_at: string;
+  id: string;
+  username: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface IToken {
-    token: string;
+  token: string;
 }
 export interface AuthState {
-    token: IToken;
-    user: IUser;
-    loggedIn: boolean;
+  token: IToken;
+  user: IUser;
+  loggedIn: boolean;
 }
